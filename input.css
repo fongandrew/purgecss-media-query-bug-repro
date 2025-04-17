@@ -1,0 +1,65 @@
+:root {
+  /* Expected behavior: These should not be purged */
+  --mobile-padding: 0.5rem;
+  --mobile-title-size: 1.25rem;
+  --mobile-text-size: 1.35rem;
+
+  /* Expected behavior: These should be purged */
+  --unused-class-var: red;
+  --mobile-unused-class-var: blue;
+}
+
+/* Nested media query */
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+
+  @media (max-width: 768px) {
+    /* Actual behavior: This does not count as usage to PurgedCSS */
+    padding: var(--mobile-padding);
+  }
+}
+
+/* Media query as parent */
+
+.title {
+  font-size: 2rem;
+}
+
+@media (max-width: 768px) {
+  .title {
+    /* Actual behavior: This counts as usage to PurgeCSS */
+    font-size: var(--mobile-title-size);
+  }
+}
+
+/* Nested media query with & */
+
+.text {
+  font-size: 1rem;
+
+  @media (max-width: 768px) {
+    & {
+      /* Actual behavior: This counts as usage to PurgeCSS with `&` in safelist */
+      font-size: var(--mobile-text-size);
+    }
+  }
+}
+
+/* Test how `&` workaround works with purge */
+.unused-class {
+  /* Actual behavior: This is purged and the variable no longer counts as usage */
+  color: var(--unused-class-var);
+
+  @media (max-width: 768px) {
+    & {
+      /*
+        Actual behavior: This is purged but the variable still counts as usage
+        because `&` is in the safelist?
+      */
+      color: var(--mobile-unused-class-var);
+    }
+  }
+}
