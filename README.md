@@ -1,6 +1,6 @@
 # PurgeCSS Media Query Test
 
-This is an issue repro to see how PurgeCSS handles CSS variables (custom properties) in media queries nested within selectors (which should be valid in any browser that supports native CSS selector nesting -- i.e. most browsers as of 2025).
+This is an issue repro for https://github.com/FullHuman/purgecss/issues/1347. It checks how PurgeCSS handles CSS variables (custom properties) in media queries nested within selectors (which should be valid in any browser that supports native CSS selector nesting -- i.e. most browsers as of 2025).
 
 To test, run `npm install`, followed by `npm run purge`. This will process [`input.css`](./input.css) and write [`output.css`](./output.css).
 
